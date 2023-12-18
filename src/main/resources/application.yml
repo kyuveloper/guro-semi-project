@@ -10,11 +10,3 @@ spring:
 
 mybatis:
   mapper-locations: mapper/*.xml
-
-thymeleaf:
-  prefix=classpath: templates/
-  suffix: .html
-  check-template-location: true
-  cache: false
-  mvc:
-    static-path-pattern: "/static/**"
