@@ -9,7 +9,7 @@ spring:
     password: petales
 
 mybatis:
-  mapper-locations: mapper/*.xml
+  mapper-locations: mybatis/mapper/*.xml
 
 thymeleaf:
   prefix=classpath: templates/
