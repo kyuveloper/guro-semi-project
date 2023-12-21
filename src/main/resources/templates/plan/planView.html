@@ -16,13 +16,14 @@
     <div>
         <label for="regionDropdown">지역 선택:</label>
         <select id="regionDropdown" onchange="loadBuildings()">
-            <option value="서울특별시" selected>서울</option>
-            <option value="제주특별자치도">제주</option>
+            <option value="선택" selected>선택해주세요</option>
+            <option value="서울특별시">서울특별시</option>
+            <option value="제주특별자치도">제주특별자치도</option>
             <!-- 다른 지역 옵션들 추가 -->
         </select>
     </div>
 
-    <div class="planDiv">
+    <div class="planDiv" id="wholeListDiv">
        <table>
            <tr>
                <th>시설 번호</th>
@@ -52,26 +53,38 @@
             <a th:if="${paging.page < paging.maxPage}" th:href="@{/plan/make_plan(page=${paging.page+1})}"> [다음] </a>
         </div>
     </div>
-    </div>
 
-    <div id="facilitiesContainer">
-        <!-- AJAX로 받아온 시설 리스트가 이 부분에 동적으로 추가될 것임 -->
-        <table>
-            <tr>
-                <th>시설 번호</th>
-                <th>시설 이름</th>
-                <th>시설 카테고리</th>
-                <th>시설 지역</th>
-            </tr>
-            <tr th:each="comp2: ${CompanyByCtprvn}">
-                <td th:text="${comp2.companyCode}"></td>
-                <td th:text="${comp2.companyName}"></td>
-                <td th:text="${comp2.companyClassi}"></td>
-                <td th:text="${comp2.companyCtprvn}"></td>
-            </tr>
-        </table>
+<!--    <div id="facilitiesContainer">-->
+<!--        &lt;!&ndash; AJAX로 받아온 시설 리스트가 이 부분에 동적으로 추가될 것임 &ndash;&gt;-->
+<!--        <table>-->
+<!--            <tr>-->
+<!--                <th>시설 번호</th>-->
+<!--                <th>시설 이름</th>-->
+<!--                <th>시설 카테고리</th>-->
+<!--                <th>시설 지역</th>-->
+<!--            </tr>-->
+<!--            <tr th:each="comp2: ${CompanyByCtprvn}">-->
+<!--                <td th:text="${comp2.companyCode}"></td>-->
+<!--                <td th:text="${comp2.companyName}"></td>-->
+<!--                <td th:text="${comp2.companyClassi}"></td>-->
+<!--                <td th:text="${comp2.companyCtprvn}"></td>-->
+<!--            </tr>-->
+<!--        </table>-->
+<!--        <div class="paging">&ndash;&gt;-->
+<!--            <span th:if="${paging.page le 1}"> [이전] </span>-->
+<!--            <a th:if="${paging.page > 1}" th:href="@{/plan/make_plan(page=${paging.page-1})}"> [이전] </a>-->
 
-    </div>
+<!--            <span th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}">-->
+<!--                    <span th:if="${i eq paging.page}">-->
+<!--                        <b th:text="${i}"></b>-->
+<!--                    </span>-->
+<!--                    <a th:unless="${i eq paging.page}" th:href="@{/plan/make_plan(page=${i})}" th:text="${i}"></a>-->
+<!--                </span>-->
+
+<!--            <span th:if="${paging.page ge paging.maxPage}"> [다음] </span>-->
+<!--            <a th:if="${paging.page < paging.maxPage}" th:href="@{/plan/make_plan(page=${paging.page+1})}"> [다음] </a>-->
+<!--        </div>-->
+<!--    </div>-->
 
 <script>
     $.datepicker.setDefaults({
@@ -130,11 +143,24 @@
             success: function (facilities) {
                 // 시설 목록을 받아서 동적으로 화면 갱신
                 updateFacilitiesUI(facilities);
+
+                // 선택된 지역에 따라 전체 리스트를 뿌려주는 div를 보이거나 숨김
+                if (selectedRegion === "서울특별시") {
+                    $("#wholeListDiv").addClass("d-none"); // 안 보이게 함
+                    location.href = "/plan/make_plan?companyCtprvn=" + "서울특별시";
+                }else if(selectedRegion === "제주특별자치도"){
+                    $("#wholeListDiv").addClass("d-none"); // 안 보이게 함
+                    location.href = "/plan/make_plan?companyCtprvn=" + "제주특별자치도";
+                }
+                else {
+                    $("#wholeListDiv").removeClass("d-none"); // 숨김
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Error loading facilities:", error);
             }
         });
+        console.log(selectedRegion);
     }
 
     function updateFacilitiesUI(facilities) {

@@ -23,20 +23,19 @@ public class PlanController {
                                @RequestParam(value="page", required=false, defaultValue="1") int page,
                                @RequestParam(value = "companyCtprvn", required = false) String companyCtprvn){
         List<CompanyDTO> companyList = companyService.selectAllCompany(page);
-        List<CompanyDTO> companyListByCtprvn = companyService.selectAllCompanyByCtprvn(page, companyCtprvn);
-        //CompanyPaging paging = companyService.pagingParam(page);
-        CompanyPaging paging = companyService.pagingParamByCtprvn(page, companyCtprvn);
+        //List<CompanyDTO> companyListByCtprvn = companyService.selectAllCompanyByCtprvn(page, companyCtprvn);
+        CompanyPaging paging = companyService.pagingParam(page);
+        //CompanyPaging paging = companyService.pagingParamByCtprvn(page, companyCtprvn);
 
-        //model.addAttribute("paging", paging);
         model.addAttribute("paging", paging);
+        //model.addAttribute("paging2", paging2);
         model.addAttribute("companyList", companyList);
-        model.addAttribute("CompanyByCtprvn", companyListByCtprvn);
+        //model.addAttribute("CompanyByCtprvn", companyListByCtprvn);
 
         System.out.println("page: " + page);
         System.out.println("companyCtprvn: " + companyCtprvn);
 
         return "plan/planView";
     }
-
 
 }
