@@ -10,8 +10,11 @@ spring:
 
 mybatis:
 <<<<<<< HEAD
+<<<<<<< HEAD
   mapper-locations: mapper/*.xml
 =======
+=======
+>>>>>>> c900a189ded6e68bdd37d20062cd471e37cd56a5
   mapper-locations: mybatis/mapper/*.xml
 
 thymeleaf:
