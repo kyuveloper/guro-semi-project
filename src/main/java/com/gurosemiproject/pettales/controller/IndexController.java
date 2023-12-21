@@ -1,4 +1,4 @@
-package com.gurosemiproject.petales.controller;
+package com.gurosemiproject.pettales.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
